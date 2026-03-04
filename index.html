@@ -2,30 +2,66 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sistema</title>
+<title>Panel Belle Sand</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
+
 body{
-background: linear-gradient(135deg,#141e30,#243b55);
-min-height:100vh;
+background:#f4efe6;
+font-family: 'Segoe UI', sans-serif;
+}
+
+/* HERO */
+.hero{
+background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG');
+background-size:cover;
+background-position:center;
+height:60vh;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
+}
+
+.hero h1{
+font-size:3rem;
+letter-spacing:2px;
+font-weight:300;
+}
+
+/* Colores Belle Sand */
+.btn-belle{
+background:#c2a878;
+color:white;
+border:none;
+}
+
+.btn-belle:hover{
+background:#b89a66;
 }
 
 .card{
+border:none;
 border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
-border:none;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
-.btn-custom{
-background:#ffc107;
-border:none;
-color:black;
-font-weight:bold;
+.section-title{
+color:#1f2f46;
+font-weight:600;
 }
 
-.btn-custom:hover{
-background:#ffca2c;
+.nav-tabs .nav-link{
+color:#1f2f46;
+}
+
+.nav-tabs .nav-link.active{
+background:#1f2f46;
+color:white;
+border-radius:10px;
 }
 
 .table{
@@ -33,41 +69,49 @@ border-radius:15px;
 overflow:hidden;
 }
 
-.nav-tabs .nav-link{
-color:white;
+.room-img{
+width:100%;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
-.nav-tabs .nav-link.active{
-background:#ffc107;
-color:black;
-font-weight:bold;
-}
 </style>
-
 </head>
 
-<body class="text-white p-4">
+<body>
 
-<div class="container">
+<!-- HERO -->
+<div class="hero">
+<div>
+<h1>Panel Belle Sand</h1>
+<p>Gestión de contactos y caja</p>
+</div>
+</div>
 
-<h2 class="text-center mb-4">Panel de Gestión</h2>
+<div class="container my-5">
 
-<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+<!-- Imagen habitación -->
+<div class="mb-5 text-center">
+<img class="room-img"
+src="https://www.hotelbellesand.com/images/home/ourbest/img-1.jpg">
+</div>
+
+<ul class="nav nav-tabs mb-4">
 <li class="nav-item">
-<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contacto">Contactos</button>
+<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contactos">Contactos</button>
 </li>
 <li class="nav-item">
-<button class="nav-link" data-bs-toggle="tab" data-bs-target="#caja">Caja 1</button>
+<button class="nav-link" data-bs-toggle="tab" data-bs-target="#caja">Caja</button>
 </li>
 </ul>
 
 <div class="tab-content">
 
-<!-- ================= CONTACTOS ================= -->
-<div class="tab-pane fade show active" id="contacto">
+<!-- CONTACTOS -->
+<div class="tab-pane fade show active" id="contactos">
 
-<div class="card bg-dark p-4 mb-4">
-<h4 class="mb-3">Registrar Contacto</h4>
+<div class="card p-4 mb-4">
+<h4 class="section-title mb-3">Registrar Contacto</h4>
 
 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec"
 method="POST"
@@ -86,23 +130,22 @@ target="hidden_iframe">
 
 <textarea class="form-control mb-3" name="mensaje" placeholder="Mensaje"></textarea>
 
-<button class="btn btn-custom w-100">Enviar</button>
+<button class="btn btn-belle w-100">Enviar</button>
 </form>
 </div>
 
-<div class="card bg-dark p-4">
-<button onclick="verContactos()" class="btn btn-outline-light mb-3">Actualizar lista</button>
+<div class="card p-4">
+<button onclick="verContactos()" class="btn btn-outline-dark mb-3">Ver Contactos</button>
 <div id="tablaContactos"></div>
 </div>
 
 </div>
 
-
-<!-- ================= CAJA ================= -->
+<!-- CAJA -->
 <div class="tab-pane fade" id="caja">
 
-<div class="card bg-dark p-4 mb-4">
-<h4 class="mb-3">Registrar Movimiento</h4>
+<div class="card p-4 mb-4">
+<h4 class="section-title mb-3">Registrar Movimiento</h4>
 
 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec"
 method="POST"
@@ -146,12 +189,12 @@ target="hidden_iframe">
 </div>
 </div>
 
-<button class="btn btn-custom w-100">Registrar</button>
+<button class="btn btn-belle w-100">Registrar</button>
 </form>
 </div>
 
-<div class="card bg-dark p-4">
-<button onclick="verCaja()" class="btn btn-outline-light mb-3">Actualizar Caja</button>
+<div class="card p-4">
+<button onclick="verCaja()" class="btn btn-outline-dark mb-3">Ver Caja</button>
 <div id="tablaCaja"></div>
 </div>
 
@@ -164,10 +207,11 @@ target="hidden_iframe">
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <script>
+
 const url="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec";
 
 function crearTabla(data){
-let html="<div class='table-responsive'><table class='table table-dark table-hover table-bordered text-center'>";
+let html="<div class='table-responsive'><table class='table table-bordered'>";
 data.forEach(fila=>{
 html+="<tr>";
 fila.forEach(col=>{
@@ -194,6 +238,7 @@ fetch(url+"?accion=verCaja1")
 document.getElementById("tablaCaja").innerHTML=crearTabla(data);
 });
 }
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
