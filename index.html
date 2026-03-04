@@ -2,112 +2,38 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Belle Sand Hotel</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-}
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<style>
 .hero {
   position: relative;
-  width: 100%;
-  max-height: 576px;
-  overflow: hidden;
+  height: 100vh;
+  background: url("https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG") center/cover no-repeat;
 }
 
-.hero img {
-  width: 100%;
-  display: block;
-}
-
-.overlay {
+.hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
+  inset: 0;
+  background: rgba(0,0,0,0.55);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
   color: white;
   text-align: center;
 }
 
-.overlay h1 {
-  font-size: 3em;
-  margin: 0;
-}
-
-.overlay p {
-  margin: 10px 0 20px 0;
-}
-
-.btn {
-  padding: 12px 24px;
-  background: #caa64b;
-  color: white;
+.btn-gold {
+  background-color: #caa64b;
   border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: 0.3s;
 }
 
-.btn:hover {
-  background: #b8943f;
-}
-
-/* Modal */
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 10;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 8px;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-}
-
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 12px;
-}
-
-.close {
-  float: right;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(-20px);}
-  to {opacity: 1; transform: translateY(0);}
+.btn-gold:hover {
+  background-color: #b8943f;
 }
 </style>
 </head>
@@ -115,44 +41,53 @@ body {
 <body>
 
 <div class="hero">
-  <img src="https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG" alt="Belle Sand Hotel">
-  <div class="overlay">
-    <h1>Belle Sand Hotel ★★★</h1>
-    <p>Reserva tu experiencia en Ica</p>
-    <button class="btn" onclick="abrirModal()">Solicitar Información</button>
+  <div class="hero-overlay">
+    <h1 class="display-4 fw-bold">Belle Sand Hotel ★★★</h1>
+    <p class="lead">Reserva tu experiencia en Ica</p>
+    <button class="btn btn-gold btn-lg" data-bs-toggle="modal" data-bs-target="#formModal">
+      Solicitar Información
+    </button>
   </div>
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <span class="close" onclick="cerrarModal()">×</span>
-    <h2>Formulario de Contacto</h2>
-    <form id="form">
-      <input type="text" name="nombre" placeholder="Nombre" required>
-      <input type="text" name="telefono" placeholder="Teléfono" required>
-      <textarea name="mensaje" placeholder="Mensaje"></textarea>
-      <button type="submit" class="btn">Enviar</button>
-    </form>
-    <p id="respuesta"></p>
+<!-- Modal -->
+<div class="modal fade" id="formModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Formulario de Contacto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form">
+          <div class="mb-3">
+            <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+          </div>
+
+          <div class="mb-3">
+            <input type="text" class="form-control" name="telefono" placeholder="Teléfono" required>
+          </div>
+
+          <div class="mb-3">
+            <textarea class="form-control" name="mensaje" placeholder="Mensaje"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-gold w-100">Enviar</button>
+        </form>
+
+        <div class="mt-3 text-center fw-bold" id="respuesta"></div>
+      </div>
+
+    </div>
   </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-function abrirModal() {
-  document.getElementById("modal").style.display = "flex";
-}
-
-function cerrarModal() {
-  document.getElementById("modal").style.display = "none";
-}
-
-window.onclick = function(event) {
-  const modal = document.getElementById("modal");
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-};
-
 document.getElementById("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
