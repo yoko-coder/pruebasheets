@@ -3,15 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Formulario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      cursor: pointer;
+    }
+    #respuesta {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
 <h2>Formulario de Registro</h2>
 
 <form id="form">
-  <input type="text" name="nombre" placeholder="Nombre" required><br><br>
-  <input type="text" name="telefono" placeholder="Teléfono" required><br><br>
-  <textarea name="mensaje" placeholder="Mensaje"></textarea><br><br>
+  <input type="text" name="nombre" placeholder="Nombre" required>
+  <input type="text" name="telefono" placeholder="Teléfono" required>
+  <textarea name="mensaje" placeholder="Mensaje"></textarea>
   <button type="submit">Enviar</button>
 </form>
 
@@ -21,6 +39,9 @@
 document.getElementById("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  const respuesta = document.getElementById("respuesta");
+  respuesta.innerText = "Enviando...";
+
   const datos = {
     nombre: e.target.nombre.value,
     telefono: e.target.telefono.value,
@@ -28,20 +49,23 @@ document.getElementById("form").addEventListener("submit", async function(e) {
   };
 
   try {
-    const response = await fetch(
+    await fetch(
       "https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec",
       {
         method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(datos)
       }
     );
 
-    const result = await response.json();
-    document.getElementById("respuesta").innerText = "Enviado correctamente";
+    respuesta.innerText = "Enviado correctamente";
     e.target.reset();
 
   } catch (error) {
-    document.getElementById("respuesta").innerText = "Error al enviar";
+    respuesta.innerText = "Error al enviar";
   }
 });
 </script>
