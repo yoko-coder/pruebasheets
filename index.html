@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,16 +28,16 @@ background-size:cover;
 .login-box{
 background:white;
 padding:40px;
-border-radius:20px;
-width:350px;
-box-shadow:0 20px 40px rgba(0,0,0,0.3);
+border-radius:15px;
+width:340px;
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
 text-align:center;
 }
 
 .login-title{
 font-size:24px;
-color:#1f2f46;
 margin-bottom:20px;
+color:#1f2f46;
 }
 
 /* PANEL */
@@ -58,19 +57,18 @@ padding:25px;
 
 .sidebar h3{
 font-weight:300;
-letter-spacing:1px;
 margin-bottom:40px;
 }
 
 .menu-btn{
 width:100%;
-margin-bottom:10px;
-border:none;
 background:transparent;
+border:none;
 color:white;
 padding:10px;
-border-radius:8px;
 text-align:left;
+border-radius:8px;
+margin-bottom:8px;
 }
 
 .menu-btn:hover{
@@ -81,7 +79,7 @@ background:#32435c;
 
 .topbar{
 background:white;
-padding:15px 30px;
+padding:15px 25px;
 box-shadow:0 3px 10px rgba(0,0,0,0.08);
 }
 
@@ -89,16 +87,16 @@ box-shadow:0 3px 10px rgba(0,0,0,0.08);
 
 .card{
 border:none;
-border-radius:18px;
+border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .section-title{
-color:#1f2f46;
 font-weight:600;
+color:#1f2f46;
 }
 
-/* BUTTON */
+/* BOTÓN BELLE */
 
 .btn-belle{
 background:#c2a878;
@@ -108,12 +106,6 @@ color:white;
 
 .btn-belle:hover{
 background:#b89a66;
-}
-
-/* TABLE */
-
-table{
-background:white;
 }
 
 /* WHATSAPP */
@@ -131,14 +123,21 @@ z-index:999;
 width:100%;
 border-radius:50%;
 box-shadow:0 5px 15px rgba(0,0,0,0.3);
-transition:transform 0.2s;
+transition:transform .2s;
 }
 
 .whatsapp-btn img:hover{
 transform:scale(1.1);
 }
 
+/* TABLA */
+
+table{
+background:white;
+}
+
 </style>
+
 </head>
 
 <body>
@@ -149,11 +148,15 @@ transform:scale(1.1);
 
 <div class="login-box">
 
-<div class="login-title">Belle Sand Panel</div>
+<div class="login-title">
+Panel Belle Sand
+</div>
 
 <input id="pass" type="password" class="form-control mb-3" placeholder="Contraseña">
 
-<button onclick="login()" class="btn btn-belle w-100">Entrar</button>
+<button onclick="login()" class="btn btn-belle w-100">
+Entrar
+</button>
 
 </div>
 
@@ -173,19 +176,22 @@ transform:scale(1.1);
 
 <h3>Belle Sand</h3>
 
-<button class="menu-btn" onclick="mostrar('contactos')">Contactos</button>
-<button class="menu-btn" onclick="mostrar('caja')">Caja</button>
+<button class="menu-btn" onclick="mostrar('contactos')">
+Contactos
+</button>
+
+<button class="menu-btn" onclick="mostrar('caja')">
+Caja
+</button>
 
 </div>
 
-<!-- CONTENT -->
+<!-- CONTENIDO -->
 
 <div class="col-md-10 p-0">
 
 <div class="topbar">
-
 Panel de administración
-
 </div>
 
 <div class="p-4">
@@ -196,7 +202,9 @@ Panel de administración
 
 <div class="card p-4 mb-4">
 
-<h4 class="section-title mb-3">Registrar Contacto</h4>
+<h4 class="section-title mb-3">
+Registrar Contacto
+</h4>
 
 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec"
 method="POST"
@@ -218,7 +226,9 @@ target="hidden_iframe">
 
 <textarea class="form-control mb-3" name="mensaje" placeholder="Mensaje"></textarea>
 
-<button class="btn btn-belle w-100">Enviar</button>
+<button class="btn btn-belle w-100">
+Enviar
+</button>
 
 </form>
 
@@ -226,7 +236,9 @@ target="hidden_iframe">
 
 <div class="card p-4">
 
-<button onclick="verContactos()" class="btn btn-outline-dark mb-3">Ver Contactos</button>
+<button onclick="verContactos()" class="btn btn-outline-dark mb-3">
+Ver Contactos
+</button>
 
 <div id="tablaContactos"></div>
 
@@ -240,7 +252,9 @@ target="hidden_iframe">
 
 <div class="card p-4 mb-4">
 
-<h4 class="section-title mb-3">Registrar Movimiento</h4>
+<h4 class="section-title mb-3">
+Registrar Movimiento
+</h4>
 
 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec"
 method="POST"
@@ -290,7 +304,9 @@ target="hidden_iframe">
 
 </div>
 
-<button class="btn btn-belle w-100">Registrar</button>
+<button class="btn btn-belle w-100">
+Registrar
+</button>
 
 </form>
 
@@ -298,11 +314,11 @@ target="hidden_iframe">
 
 <div class="card p-4">
 
-<button onclick="verCaja()" class="btn btn-outline-dark mb-3">Ver Caja</button>
+<button onclick="verCaja()" class="btn btn-outline-dark mb-3">
+Ver Caja
+</button>
 
 <div id="tablaCaja"></div>
-
-</div>
 
 </div>
 
@@ -337,26 +353,30 @@ function login(){
 let p=document.getElementById("pass").value;
 
 if(p==="bellesand123"){
+
 document.getElementById("loginScreen").style.display="none";
 document.getElementById("panel").style.display="block";
+
 }else{
+
 alert("Contraseña incorrecta");
-}
 
 }
 
-/* CAMBIAR SECCIÓN */
+}
 
-function mostrar(seccion){
+/* NAVEGACIÓN */
+
+function mostrar(sec){
 
 document.getElementById("contactos").style.display="none";
 document.getElementById("caja").style.display="none";
 
-document.getElementById(seccion).style.display="block";
+document.getElementById(sec).style.display="block";
 
 }
 
-/* TABLAS */
+/* TABLA */
 
 function crearTabla(data){
 
@@ -404,4 +424,3 @@ document.getElementById("tablaCaja").innerHTML=crearTabla(data);
 
 </body>
 </html>
-```
