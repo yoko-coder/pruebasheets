@@ -3,155 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belle Sand | Exclusive Resort</title>
+    <title>Belle Sand | Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-dark: #1a2533;
             --accent-gold: #c2a878;
             --soft-white: #fcfaf7;
-            --text-gray: #555;
+            --success-green: #2ecc71;
         }
 
-        body, html {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--soft-white);
-            scroll-behavior: smooth;
-        }
+        body, html { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--soft-white); }
 
-        /* --- BOTÓN DISCRETO STAFF --- */
-        .admin-trigger {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 6px 15px;
-            border-radius: 2px;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.4s;
-        }
-        .admin-trigger:hover { background: white; color: var(--primary-dark); }
+        /* --- ESTILOS PÚBLICOS (Resumen) --- */
+        .admin-trigger { position: fixed; top: 20px; right: 20px; z-index: 2000; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 15px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
+        #hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        .rooms-section { padding: 50px 8%; }
+        .room-card { background: white; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .room-img { height: 200px; background-size: cover; background-position: center; }
 
-        /* --- HERO SECTION --- */
-        #hero {
-            height: 70vh;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 300;
-            letter-spacing: 10px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            letter-spacing: 5px;
-            font-style: italic;
-            opacity: 0.8;
-        }
-
-        /* --- GRID DE HABITACIONES (6 TOTAL) --- */
-        .rooms-section {
-            padding: 80px 8%;
-            background: var(--soft-white);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-weight: 300;
-            letter-spacing: 4px;
-            color: var(--primary-dark);
-            text-transform: uppercase;
-            font-size: 1.8rem;
-        }
-
-        .room-card {
-            background: white;
-            border: none;
-            overflow: hidden;
-            transition: transform 0.4s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            margin-bottom: 40px;
-            height: 100%;
-        }
-
-        .room-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .room-img {
-            height: 260px;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.6s ease;
-        }
-
-        .room-card:hover .room-img {
-            transform: scale(1.03);
-        }
-
-        .room-info {
-            padding: 25px;
-            text-align: center;
-        }
-
-        .room-info h3 {
-            font-size: 1.1rem;
-            letter-spacing: 1.5px;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .room-price {
-            color: var(--accent-gold);
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-
-        /* --- LOGIN OVERLAY --- */
-        #loginOverlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 37, 51, 0.98);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- PANEL DE ADMIN (Mantenido) --- */
-        #panel { display: none; background: #f4f4f4; min-height: 100vh; }
+        /* --- PANEL DE ADMIN --- */
+        #panel { display: none; min-height: 100vh; background: #f0f2f5; }
         .sidebar { min-height: 100vh; background: var(--primary-dark); color: white; padding: 25px; }
-        .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 4px; margin-bottom: 8px; }
-        .menu-btn:hover { background: rgba(255,255,255,0.1); }
-        .btn-belle { background: var(--accent-gold); color: white; border: none; padding: 10px; width: 100%; }
+        .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 4px; margin-bottom: 8px; transition: 0.3s; }
+        .menu-btn:hover, .menu-btn.active { background: var(--accent-gold); color: white; }
+        
+        .card-admin { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 25px; }
+        .table-container { background: white; border-radius: 8px; padding: 15px; }
+        
+        /* Buscador */
+        .search-input { border-radius: 20px; padding-left: 15px; border: 1px solid #ddd; margin-bottom: 15px; }
 
-        .whatsapp-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; z-index: 1000; transition: 0.3s; }
+        /* Feedback */
+        .status-msg { display: none; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 0.9rem; text-align: center; }
+        
+        #loginOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 37, 51, 0.98); z-index: 3000; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
@@ -160,83 +46,25 @@
 
     <div id="publicSite">
         <section id="hero">
-            <h1 class="hero-title">Belle Sand</h1>
-            <p class="hero-subtitle">Hotel  Ica-Perú</p>
+            <h1 style="letter-spacing: 8px; text-transform: uppercase;">Belle Sand</h1>
+            <p style="font-style: italic; opacity: 0.8;">EL ARTE DE LA CALMA</p>
         </section>
-
-        <section class="rooms-section">
-            <div class="section-header">
-                <h2>Experiencias de Alojamiento</h2>
-                <div style="width: 40px; height: 1px; background: var(--accent-gold); margin: 20px auto;"></div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496695/image-ica-belle-sand-hotel-42.JPEG');"></div>
-                            <div class="room-info">
-                                <h3>Suite Matrimonial</h3>
-                                <p class="room-price">S/ 250 • NOCHE</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496701/image-ica-belle-sand-hotel-48.JPEG');"></div>
-                            <div class="room-info">
-                                <h3>Habitación Familiar</h3>
-                                <p class="room-price">S/ 380 • NOCHE</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496698/image-ica-belle-sand-hotel-45.JPEG');"></div>
-                            <div class="room-info">
-                                <h3>Bungalow Deluxe</h3>
-                                <p class="room-price">S/ 450 • NOCHE</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496693/image-ica-belle-sand-hotel-40.JPEG');"></div>
-                            <div class="room-info">
-                                <h3>Suite Jardín</h3>
-                                <p class="room-price">S/ 290 • NOCHE</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496696/image-ica-belle-sand-hotel-43.JPEG');"></div>
-                            <div class="room-info">
-                                <h3>Doble Premium</h3>
-                                <p class="room-price">S/ 320 • NOCHE</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496702/image-ica-belle-sand-hotel-49.JPEG');"></div>
-                            <div class="room-info">
-                                <h3>Master Suite</h3>
-                                <p class="room-price">S/ 580 • NOCHE</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section class="rooms-section text-center">
+            <h2 class="mb-5" style="font-weight: 300; letter-spacing: 3px;">NUESTRAS SUITES</h2>
+            <div class="row" id="roomGrid">
+                <div class="col-md-4"><div class="room-card"><div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496695/image-ica-belle-sand-hotel-42.JPEG');"></div><div class="p-3"><h6>SUITE MATRIMONIAL</h6></div></div></div>
+                <div class="col-md-4"><div class="room-card"><div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496701/image-ica-belle-sand-hotel-48.JPEG');"></div><div class="p-3"><h6>HABITACIÓN FAMILIAR</h6></div></div></div>
+                <div class="col-md-4"><div class="room-card"><div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496698/image-ica-belle-sand-hotel-45.JPEG');"></div><div class="p-3"><h6>BUNGALOW DELUXE</h6></div></div></div>
             </div>
         </section>
     </div>
 
     <div id="loginOverlay">
-        <div style="background: white; padding: 40px; border-radius: 4px; width: 320px; text-align: center;">
-            <h5 class="mb-4" style="letter-spacing: 2px;">ACCESO STAFF</h5>
+        <div style="background: white; padding: 40px; border-radius: 8px; width: 320px; text-align: center;">
+            <h5 class="mb-4">SISTEMA INTERNO</h5>
             <input id="pass" type="password" class="form-control mb-3" placeholder="Contraseña">
             <button onclick="login()" class="btn btn-dark w-100 mb-2">ENTRAR</button>
-            <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted text-decoration-none">Volver al sitio</button>
+            <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted">Volver</button>
         </div>
     </div>
 
@@ -244,55 +72,86 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 sidebar">
-                    <h4 class="mb-5">Belle Sand</h4>
-                    <button class="menu-btn" onclick="mostrar('contactos')">Contactos</button>
-                    <button class="menu-btn" onclick="mostrar('caja')">Caja</button>
-                    <hr>
-                    <button class="menu-btn" onclick="location.reload()">Cerrar Sesión</button>
+                    <h4 class="mb-5 text-center" style="letter-spacing: 2px;">BELLE SAND</h4>
+                    <button id="btn-nav-contactos" class="menu-btn active" onclick="mostrar('contactos')">Contactos</button>
+                    <button id="btn-nav-caja" class="menu-btn" onclick="mostrar('caja')">Caja Chica</button>
+                    <hr class="my-4">
+                    <button class="menu-btn text-danger" onclick="location.reload()">Cerrar Sesión</button>
                 </div>
+
                 <div class="col-md-10 p-4">
-                    <div id="contactos">
-                        <div class="card p-4 mb-4">
-                            <h4>Registrar Contacto</h4>
-                            <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec" method="POST" target="hidden_iframe">
+                    
+                    <div id="sec-contactos">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>Gestión de Contactos</h3>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="verContactos()">🔄 Actualizar Tabla</button>
+                        </div>
+
+                        <div class="card-admin">
+                            <h5>Nuevo Registro</h5>
+                            <div id="msg-contacto" class="status-msg"></div>
+                            <form id="form-contacto" onsubmit="enviarFormulario(event, 'contacto', 'msg-contacto')">
                                 <input type="hidden" name="accion" value="contacto">
-                                <input class="form-control mb-2" name="nombre" placeholder="Nombre" required>
-                                <input class="form-control mb-2" name="telefono" placeholder="Teléfono" required>
-                                <textarea class="form-control mb-2" name="mensaje" placeholder="Mensaje"></textarea>
-                                <button class="btn btn-belle">Guardar</button>
+                                <div class="row">
+                                    <div class="col-md-4"><input class="form-control mb-2" name="nombre" placeholder="Nombre completo" required></div>
+                                    <div class="col-md-4"><input class="form-control mb-2" name="telefono" placeholder="Teléfono" required></div>
+                                    <div class="col-md-4"><input class="form-control mb-2" name="mensaje" placeholder="Notas/Mensaje"></div>
+                                </div>
+                                <button type="submit" class="btn btn-dark px-5">Guardar Contacto</button>
                             </form>
                         </div>
-                        <div id="tablaContactos"></div>
+
+                        <div class="table-container">
+                            <input type="text" class="form-control search-input w-25" id="searchContactos" onkeyup="filtrarTabla('tablaContactos', this.value)" placeholder="🔍 Buscar contacto...">
+                            <div id="tablaContactos">Cargando datos...</div>
+                        </div>
                     </div>
 
-                    <div id="caja" style="display:none">
-                        <div class="card p-4 mb-4">
-                            <h4>Gestión de Caja</h4>
-                            <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec" method="POST" target="hidden_iframe">
+                    <div id="sec-caja" style="display:none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3>Movimientos de Caja</h3>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="verCaja()">🔄 Actualizar Tabla</button>
+                        </div>
+
+                        <div class="card-admin">
+                            <h5>Registrar Ingreso / Egreso</h5>
+                            <div id="msg-caja" class="status-msg"></div>
+                            <form id="form-caja" onsubmit="enviarFormulario(event, 'caja1', 'msg-caja')">
                                 <input type="hidden" name="accion" value="caja1">
                                 <div class="row">
-                                    <div class="col-md-4"><input class="form-control mb-2" name="habitacion" placeholder="Habitación"></div>
-                                    <div class="col-md-4"><input class="form-control mb-2" name="nombreCliente" placeholder="Cliente"></div>
-                                    <div class="col-md-4"><input type="number" step="0.01" class="form-control mb-2" name="monto" placeholder="Monto"></div>
+                                    <div class="col-md-2"><input class="form-control mb-2" name="habitacion" placeholder="Hab."></div>
+                                    <div class="col-md-4"><input class="form-control mb-2" name="nombreCliente" placeholder="Cliente" required></div>
+                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control mb-2" name="monto" placeholder="Monto" required></div>
+                                    <div class="col-md-2">
+                                        <select class="form-select mb-2" name="tipo">
+                                            <option value="Ingreso">Ingreso</option>
+                                            <option value="Egreso">Egreso</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-dark w-100">Registrar</button>
+                                    </div>
                                 </div>
-                                <button class="btn btn-belle">Registrar Movimiento</button>
                             </form>
                         </div>
-                        <div id="tablaCaja"></div>
+
+                        <div class="table-container">
+                            <input type="text" class="form-control search-input w-25" id="searchCaja" onkeyup="filtrarTabla('tablaCaja', this.value)" placeholder="🔍 Buscar en caja...">
+                            <div id="tablaCaja">Cargando datos...</div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
     <iframe name="hidden_iframe" style="display:none;"></iframe>
-    <a href="https://wa.me/51956003102" target="_blank" class="whatsapp-btn">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="100%">
-    </a>
 
     <script>
         const url = "https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec";
 
+        // --- NAVEGACIÓN Y LOGIN ---
         function openLogin() { document.getElementById("loginOverlay").style.display = "flex"; }
         function closeLogin() { document.getElementById("loginOverlay").style.display = "none"; }
 
@@ -302,37 +161,99 @@
                 document.getElementById("loginOverlay").style.display = "none";
                 document.querySelector(".admin-trigger").style.display = "none";
                 document.getElementById("panel").style.display = "block";
-                verContactos(); // Carga inicial de datos
+                verContactos();
                 verCaja();
-            } else { alert("Acceso Denegado"); }
+            } else { alert("Acceso Incorrecto"); }
         }
 
         function mostrar(sec) {
-            document.getElementById("contactos").style.display = "none";
-            document.getElementById("caja").style.display = "none";
-            document.getElementById(sec).style.display = "block";
+            document.getElementById("sec-contactos").style.display = "none";
+            document.getElementById("sec-caja").style.display = "none";
+            document.getElementById("btn-nav-contactos").classList.remove("active");
+            document.getElementById("btn-nav-caja").classList.remove("active");
+
+            document.getElementById("sec-" + sec).style.display = "block";
+            document.getElementById("btn-nav-" + sec).classList.add("active");
         }
 
-        function crearTabla(data) {
-            let html = "<div class='table-responsive'><table class='table table-sm table-hover'>";
-            data.forEach(fila => {
+        // --- FUNCIONALIDAD DE FORMULARIOS ---
+        function enviarFormulario(event, accion, msgId) {
+            event.preventDefault();
+            const form = event.target;
+            const msgDiv = document.getElementById(msgId);
+            
+            msgDiv.style.display = "block";
+            msgDiv.style.background = "#e1f5fe";
+            msgDiv.innerText = "Procesando envío...";
+
+            const formData = new FormData(form);
+            
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            }).then(() => {
+                msgDiv.style.background = "#d4edda";
+                msgDiv.style.color = "#155724";
+                msgDiv.innerText = "¡Registro guardado con éxito!";
+                form.reset();
+                
+                // Recargar tabla correspondiente después de 1 segundo
+                setTimeout(() => {
+                    msgDiv.style.display = "none";
+                    if(accion === 'contacto') verContactos();
+                    else verCaja();
+                }, 2000);
+            }).catch(err => {
+                msgDiv.style.background = "#f8d7da";
+                msgDiv.innerText = "Error al conectar con el servidor.";
+            });
+        }
+
+        // --- TABLAS Y FILTROS ---
+        function verContactos() {
+            document.getElementById("tablaContactos").innerHTML = "Actualizando...";
+            fetch(url + "?accion=verContactos").then(res=>res.json()).then(data => {
+                document.getElementById("tablaContactos").innerHTML = crearTabla(data, "tablaContactosID");
+            });
+        }
+
+        function verCaja() {
+            document.getElementById("tablaCaja").innerHTML = "Actualizando...";
+            fetch(url + "?accion=verCaja1").then(res=>res.json()).then(data => {
+                document.getElementById("tablaCaja").innerHTML = crearTabla(data, "tablaCajaID");
+            });
+        }
+
+        function crearTabla(data, id) {
+            let html = `<div class='table-responsive'><table class='table table-sm table-hover' id='${id}'>`;
+            data.forEach((fila, index) => {
                 html += "<tr>";
-                fila.forEach(col => { html += "<td>" + col + "</td>"; });
+                fila.forEach(col => {
+                    html += index === 0 ? `<th class='bg-light'>${col}</th>` : `<td>${col}</td>`;
+                });
                 html += "</tr>";
             });
             return html + "</table></div>";
         }
 
-        function verContactos() {
-            fetch(url + "?accion=verContactos").then(res=>res.json()).then(data=> {
-                document.getElementById("tablaContactos").innerHTML = crearTabla(data);
-            });
-        }
+        function filtrarTabla(contenedorId, valor) {
+            const table = document.getElementById(contenedorId).getElementsByTagName('table')[0];
+            if (!table) return;
+            const tr = table.getElementsByTagName("tr");
+            const filter = valor.toUpperCase();
 
-        function verCaja() {
-            fetch(url + "?accion=verCaja1").then(res=>res.json()).then(data=> {
-                document.getElementById("tablaCaja").innerHTML = crearTabla(data);
-            });
+            for (let i = 1; i < tr.length; i++) {
+                let found = false;
+                const tds = tr[i].getElementsByTagName("td");
+                for (let j = 0; j < tds.length; j++) {
+                    if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                tr[i].style.display = found ? "" : "none";
+            }
         }
     </script>
 </body>
