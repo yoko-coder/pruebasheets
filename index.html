@@ -3,68 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belle Sand | Management System</title>
+    <title>Belle Sand | Admin Elite</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
     <style>
         :root {
             --primary-dark: #1a2533;
             --accent-gold: #c2a878;
             --soft-white: #fcfaf7;
-            --success-green: #2ecc71;
         }
 
         body, html { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--soft-white); }
 
-        /* --- ESTILOS PÚBLICOS (Resumen) --- */
+        /* --- VISTA PÚBLICA (Mantenida) --- */
         .admin-trigger { position: fixed; top: 20px; right: 20px; z-index: 2000; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 15px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
-        #hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
-        .rooms-section { padding: 50px 8%; }
-        .room-card { background: white; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .room-img { height: 200px; background-size: cover; background-position: center; }
+        #hero { height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
 
         /* --- PANEL DE ADMIN --- */
-        #panel { display: none; min-height: 100vh; background: #f0f2f5; }
-        .sidebar { min-height: 100vh; background: var(--primary-dark); color: white; padding: 25px; }
-        .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 4px; margin-bottom: 8px; transition: 0.3s; }
-        .menu-btn:hover, .menu-btn.active { background: var(--accent-gold); color: white; }
+        #panel { display: none; min-height: 100vh; background: #f8f9fa; }
+        .sidebar { min-height: 100vh; background: var(--primary-dark); color: white; padding: 25px; position: fixed; width: inherit; }
+        .main-content { margin-left: 16.666667%; padding: 30px; width: 83.333333%; }
         
-        .card-admin { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 25px; }
-        .table-container { background: white; border-radius: 8px; padding: 15px; }
+        .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 4px; margin-bottom: 8px; transition: 0.3s; opacity: 0.7; }
+        .menu-btn:hover, .menu-btn.active { background: var(--accent-gold); opacity: 1; color: white; }
         
-        /* Buscador */
-        .search-input { border-radius: 20px; padding-left: 15px; border: 1px solid #ddd; margin-bottom: 15px; }
+        .card-admin { background: white; border-radius: 12px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 25px; }
+        
+        /* Filtros por Columna */
+        .filter-row input {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            width: 100%;
+        }
 
-        /* Feedback */
-        .status-msg { display: none; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 0.9rem; text-align: center; }
-        
+        .status-bubble {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 30px;
+            border-radius: 50px;
+            color: white;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-weight: 600;
+        }
+
         #loginOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 37, 51, 0.98); z-index: 3000; justify-content: center; align-items: center; }
+        
+        table th { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; color: #888; border-bottom: 2px solid #eee !important; }
+        table td { font-size: 0.9rem; vertical-align: middle; }
     </style>
 </head>
 <body>
 
     <div class="admin-trigger" onclick="openLogin()">Staff Only</div>
+    <div id="status-bubble" class="status-bubble"></div>
 
     <div id="publicSite">
         <section id="hero">
-            <h1 style="letter-spacing: 8px; text-transform: uppercase;">Belle Sand</h1>
-            <p style="font-style: italic; opacity: 0.8;">EL ARTE DE LA CALMA</p>
+            <h1 style="letter-spacing: 10px; font-weight: 300;">BELLE SAND</h1>
         </section>
-        <section class="rooms-section text-center">
-            <h2 class="mb-5" style="font-weight: 300; letter-spacing: 3px;">NUESTRAS SUITES</h2>
-            <div class="row" id="roomGrid">
-                <div class="col-md-4"><div class="room-card"><div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496695/image-ica-belle-sand-hotel-42.JPEG');"></div><div class="p-3"><h6>SUITE MATRIMONIAL</h6></div></div></div>
-                <div class="col-md-4"><div class="room-card"><div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496701/image-ica-belle-sand-hotel-48.JPEG');"></div><div class="p-3"><h6>HABITACIÓN FAMILIAR</h6></div></div></div>
-                <div class="col-md-4"><div class="room-card"><div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496698/image-ica-belle-sand-hotel-45.JPEG');"></div><div class="p-3"><h6>BUNGALOW DELUXE</h6></div></div></div>
-            </div>
-        </section>
+        <div class="p-5 text-center">
+            <h2 style="font-weight: 300; letter-spacing: 4px;">RESERVE SU EXPERIENCIA</h2>
+            <p class="text-muted">Desliza para ver nuestras suites</p>
+        </div>
     </div>
 
     <div id="loginOverlay">
-        <div style="background: white; padding: 40px; border-radius: 8px; width: 320px; text-align: center;">
-            <h5 class="mb-4">SISTEMA INTERNO</h5>
+        <div style="background: white; padding: 40px; border-radius: 12px; width: 340px; text-align: center;">
+            <h5 class="mb-4">IDENTIFICACIÓN</h5>
             <input id="pass" type="password" class="form-control mb-3" placeholder="Contraseña">
             <button onclick="login()" class="btn btn-dark w-100 mb-2">ENTRAR</button>
-            <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted">Volver</button>
+            <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted">Cancelar</button>
         </div>
     </div>
 
@@ -72,72 +87,76 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 sidebar">
-                    <h4 class="mb-5 text-center" style="letter-spacing: 2px;">BELLE SAND</h4>
-                    <button id="btn-nav-contactos" class="menu-btn active" onclick="mostrar('contactos')">Contactos</button>
-                    <button id="btn-nav-caja" class="menu-btn" onclick="mostrar('caja')">Caja Chica</button>
-                    <hr class="my-4">
-                    <button class="menu-btn text-danger" onclick="location.reload()">Cerrar Sesión</button>
+                    <h4 class="mb-5 text-center">BELLE SAND</h4>
+                    <button id="nav-contactos" class="menu-btn active" onclick="mostrar('contactos')">CONTACTOS</button>
+                    <button id="nav-caja" class="menu-btn" onclick="mostrar('caja')">CAJA CHICA</button>
+                    <hr class="my-5" style="opacity: 0.2;">
+                    <button class="menu-btn text-danger" onclick="location.reload()">SALIR</button>
                 </div>
 
-                <div class="col-md-10 p-4">
+                <div class="col-md-10 main-content">
                     
                     <div id="sec-contactos">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h3>Gestión de Contactos</h3>
-                            <button class="btn btn-sm btn-outline-secondary" onclick="verContactos()">🔄 Actualizar Tabla</button>
+                        <div class="d-flex justify-content-between align-items-end mb-4">
+                            <div>
+                                <h2 class="fw-light">Libro de Contactos</h2>
+                                <p class="text-muted small m-0">Gestión de prospectos y mensajes</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaContactosID', 'Contactos_BelleSand')">📥 Exportar Excel</button>
+                                <button class="btn btn-dark btn-sm" onclick="verContactos()">🔄 Actualizar</button>
+                            </div>
                         </div>
 
                         <div class="card-admin">
-                            <h5>Nuevo Registro</h5>
-                            <div id="msg-contacto" class="status-msg"></div>
-                            <form id="form-contacto" onsubmit="enviarFormulario(event, 'contacto', 'msg-contacto')">
+                            <form onsubmit="enviarFormulario(event, 'contacto')">
                                 <input type="hidden" name="accion" value="contacto">
                                 <div class="row">
-                                    <div class="col-md-4"><input class="form-control mb-2" name="nombre" placeholder="Nombre completo" required></div>
-                                    <div class="col-md-4"><input class="form-control mb-2" name="telefono" placeholder="Teléfono" required></div>
-                                    <div class="col-md-4"><input class="form-control mb-2" name="mensaje" placeholder="Notas/Mensaje"></div>
+                                    <div class="col-md-4"><input class="form-control" name="nombre" placeholder="Nombre" required></div>
+                                    <div class="col-md-4"><input class="form-control" name="telefono" placeholder="Teléfono" required></div>
+                                    <div class="col-md-4"><input class="form-control" name="mensaje" placeholder="Mensaje/Nota"></div>
                                 </div>
-                                <button type="submit" class="btn btn-dark px-5">Guardar Contacto</button>
+                                <button type="submit" class="btn btn-dark mt-3 px-4">Registrar</button>
                             </form>
                         </div>
 
-                        <div class="table-container">
-                            <input type="text" class="form-control search-input w-25" id="searchContactos" onkeyup="filtrarTabla('tablaContactos', this.value)" placeholder="🔍 Buscar contacto...">
-                            <div id="tablaContactos">Cargando datos...</div>
+                        <div class="card-admin p-0 overflow-hidden">
+                            <div id="tablaContactos" class="p-3">Cargando base de datos...</div>
                         </div>
                     </div>
 
                     <div id="sec-caja" style="display:none">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h3>Movimientos de Caja</h3>
-                            <button class="btn btn-sm btn-outline-secondary" onclick="verCaja()">🔄 Actualizar Tabla</button>
+                        <div class="d-flex justify-content-between align-items-end mb-4">
+                            <div>
+                                <h2 class="fw-light">Control de Caja</h2>
+                                <p class="text-muted small m-0">Flujo de efectivo e ingresos</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaCajaID', 'Caja_BelleSand')">📥 Exportar Excel</button>
+                                <button class="btn btn-dark btn-sm" onclick="verCaja()">🔄 Actualizar</button>
+                            </div>
                         </div>
 
                         <div class="card-admin">
-                            <h5>Registrar Ingreso / Egreso</h5>
-                            <div id="msg-caja" class="status-msg"></div>
-                            <form id="form-caja" onsubmit="enviarFormulario(event, 'caja1', 'msg-caja')">
+                            <form onsubmit="enviarFormulario(event, 'caja1')">
                                 <input type="hidden" name="accion" value="caja1">
-                                <div class="row">
-                                    <div class="col-md-2"><input class="form-control mb-2" name="habitacion" placeholder="Hab."></div>
-                                    <div class="col-md-4"><input class="form-control mb-2" name="nombreCliente" placeholder="Cliente" required></div>
-                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control mb-2" name="monto" placeholder="Monto" required></div>
+                                <div class="row g-2">
+                                    <div class="col-md-2"><input class="form-control" name="habitacion" placeholder="Hab."></div>
+                                    <div class="col-md-4"><input class="form-control" name="nombreCliente" placeholder="Nombre del Cliente" required></div>
+                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control" name="monto" placeholder="S/ Monto" required></div>
                                     <div class="col-md-2">
-                                        <select class="form-select mb-2" name="tipo">
+                                        <select class="form-select" name="tipo">
                                             <option value="Ingreso">Ingreso</option>
                                             <option value="Egreso">Egreso</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-dark w-100">Registrar</button>
-                                    </div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-dark w-100">Guardar</button></div>
                                 </div>
                             </form>
                         </div>
 
-                        <div class="table-container">
-                            <input type="text" class="form-control search-input w-25" id="searchCaja" onkeyup="filtrarTabla('tablaCaja', this.value)" placeholder="🔍 Buscar en caja...">
-                            <div id="tablaCaja">Cargando datos...</div>
+                        <div class="card-admin p-0 overflow-hidden">
+                            <div id="tablaCaja" class="p-3">Cargando base de datos...</div>
                         </div>
                     </div>
 
@@ -146,115 +165,117 @@
         </div>
     </div>
 
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
-
     <script>
         const url = "https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec";
 
-        // --- NAVEGACIÓN Y LOGIN ---
-        function openLogin() { document.getElementById("loginOverlay").style.display = "flex"; }
-        function closeLogin() { document.getElementById("loginOverlay").style.display = "none"; }
+        function showStatus(text, type='success') {
+            const b = document.getElementById('status-bubble');
+            b.innerText = text;
+            b.style.display = 'block';
+            b.style.background = type === 'success' ? '#27ae60' : '#e74c3c';
+            setTimeout(() => b.style.display = 'none', 3000);
+        }
 
         function login() {
             if(document.getElementById("pass").value === "bellesand123") {
                 document.getElementById("publicSite").style.display = "none";
                 document.getElementById("loginOverlay").style.display = "none";
-                document.querySelector(".admin-trigger").style.display = "none";
                 document.getElementById("panel").style.display = "block";
-                verContactos();
-                verCaja();
-            } else { alert("Acceso Incorrecto"); }
+                verContactos(); verCaja();
+            } else { alert("Contraseña incorrecta"); }
         }
 
         function mostrar(sec) {
             document.getElementById("sec-contactos").style.display = "none";
             document.getElementById("sec-caja").style.display = "none";
-            document.getElementById("btn-nav-contactos").classList.remove("active");
-            document.getElementById("btn-nav-caja").classList.remove("active");
-
+            document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove('active'));
             document.getElementById("sec-" + sec).style.display = "block";
-            document.getElementById("btn-nav-" + sec).classList.add("active");
+            document.getElementById("nav-" + sec).classList.add('active');
         }
 
-        // --- FUNCIONALIDAD DE FORMULARIOS ---
-        function enviarFormulario(event, accion, msgId) {
+        async function enviarFormulario(event, accion) {
             event.preventDefault();
             const form = event.target;
-            const msgDiv = document.getElementById(msgId);
-            
-            msgDiv.style.display = "block";
-            msgDiv.style.background = "#e1f5fe";
-            msgDiv.innerText = "Procesando envío...";
+            showStatus("Enviando datos...", "success");
 
-            const formData = new FormData(form);
-            
-            fetch(url, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            }).then(() => {
-                msgDiv.style.background = "#d4edda";
-                msgDiv.style.color = "#155724";
-                msgDiv.innerText = "¡Registro guardado con éxito!";
+            try {
+                await fetch(url, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+                showStatus("¡Registro guardado con éxito!");
                 form.reset();
-                
-                // Recargar tabla correspondiente después de 1 segundo
-                setTimeout(() => {
-                    msgDiv.style.display = "none";
-                    if(accion === 'contacto') verContactos();
-                    else verCaja();
-                }, 2000);
-            }).catch(err => {
-                msgDiv.style.background = "#f8d7da";
-                msgDiv.innerText = "Error al conectar con el servidor.";
-            });
+                accion === 'contacto' ? verContactos() : verCaja();
+            } catch (e) { showStatus("Error de conexión", "error"); }
         }
 
-        // --- TABLAS Y FILTROS ---
         function verContactos() {
-            document.getElementById("tablaContactos").innerHTML = "Actualizando...";
             fetch(url + "?accion=verContactos").then(res=>res.json()).then(data => {
-                document.getElementById("tablaContactos").innerHTML = crearTabla(data, "tablaContactosID");
+                document.getElementById("tablaContactos").innerHTML = generarTablaConFiltros(data, "tablaContactosID");
             });
         }
 
         function verCaja() {
-            document.getElementById("tablaCaja").innerHTML = "Actualizando...";
             fetch(url + "?accion=verCaja1").then(res=>res.json()).then(data => {
-                document.getElementById("tablaCaja").innerHTML = crearTabla(data, "tablaCajaID");
+                document.getElementById("tablaCaja").innerHTML = generarTablaConFiltros(data, "tablaCajaID");
             });
         }
 
-        function crearTabla(data, id) {
-            let html = `<div class='table-responsive'><table class='table table-sm table-hover' id='${id}'>`;
-            data.forEach((fila, index) => {
+        function generarTablaConFiltros(data, tableId) {
+            let html = `<div class='table-responsive'><table class='table table-hover mb-0' id='${tableId}'><thead><tr>`;
+            
+            // Cabeceras
+            data[0].forEach(col => html += `<th>${col}</th>`);
+            html += `</tr><tr class='filter-row'>`;
+            
+            // Fila de Filtros
+            data[0].forEach((_, i) => {
+                html += `<td><input type='text' placeholder='Filtrar...' onkeyup='multiFiltro("${tableId}", ${i}, this.value)'></td>`;
+            });
+            html += `</tr></thead><tbody>`;
+
+            // Cuerpo
+            for(let i=1; i<data.length; i++) {
                 html += "<tr>";
-                fila.forEach(col => {
-                    html += index === 0 ? `<th class='bg-light'>${col}</th>` : `<td>${col}</td>`;
-                });
+                data[i].forEach(col => html += `<td>${col}</td>`);
                 html += "</tr>";
-            });
-            return html + "</table></div>";
+            }
+            return html + "</tbody></table></div>";
         }
 
-        function filtrarTabla(contenedorId, valor) {
-            const table = document.getElementById(contenedorId).getElementsByTagName('table')[0];
-            if (!table) return;
-            const tr = table.getElementsByTagName("tr");
-            const filter = valor.toUpperCase();
+        function multiFiltro(tableId, colIndex, value) {
+            const table = document.getElementById(tableId);
+            const trs = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            const filterValue = value.toUpperCase();
 
-            for (let i = 1; i < tr.length; i++) {
-                let found = false;
-                const tds = tr[i].getElementsByTagName("td");
-                for (let j = 0; j < tds.length; j++) {
-                    if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
-                        found = true;
-                        break;
+            // Obtenemos todos los inputs de filtro de esa tabla
+            const allFilters = table.querySelectorAll('.filter-row input');
+
+            for (let i = 0; i < trs.length; i++) {
+                let showRow = true;
+                
+                // Verificamos cada columna contra su respectivo filtro
+                allFilters.forEach((input, index) => {
+                    const cellValue = trs[i].getElementsByTagName("td")[index].textContent.toUpperCase();
+                    if (input.value && cellValue.indexOf(input.value.toUpperCase()) === -1) {
+                        showRow = false;
                     }
-                }
-                tr[i].style.display = found ? "" : "none";
+                });
+                
+                trs[i].style.display = showRow ? "" : "none";
             }
         }
+
+        function exportarExcel(tableId, nombre) {
+            const table = document.getElementById(tableId);
+            // Clonamos la tabla para quitar la fila de filtros antes de exportar
+            const clone = table.cloneNode(true);
+            clone.querySelector('.filter-row').remove();
+            
+            const wb = XLSX.utils.table_to_book(clone, {sheet: "Datos"});
+            XLSX.writeFile(wb, `${nombre}.xlsx`);
+            showStatus("Archivo Excel generado");
+        }
+
+        function openLogin() { document.getElementById("loginOverlay").style.display = "flex"; }
+        function closeLogin() { document.getElementById("loginOverlay").style.display = "none"; }
     </script>
 </body>
 </html>
