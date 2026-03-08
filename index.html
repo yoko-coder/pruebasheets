@@ -2,51 +2,94 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Panel Belle Sand</title>
+<title>Belle Sand Panel</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 
 body{
-background:#f4efe6;
+background:#f6f3ec;
 font-family: 'Segoe UI', sans-serif;
 }
 
-/* HERO */
-.hero{
-background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG');
-background-size:cover;
-background-position:center;
-height:60vh;
+/* LOGIN */
+
+.login-screen{
+height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-color:white;
+background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG');
+background-size:cover;
+}
+
+.login-box{
+background:white;
+padding:40px;
+border-radius:20px;
+width:350px;
+box-shadow:0 20px 40px rgba(0,0,0,0.3);
 text-align:center;
 }
 
-.hero h1{
-font-size:3rem;
-letter-spacing:2px;
-font-weight:300;
+.login-title{
+font-size:24px;
+color:#1f2f46;
+margin-bottom:20px;
 }
 
-/* Colores Belle Sand */
-.btn-belle{
-background:#c2a878;
+/* PANEL */
+
+.panel{
+display:none;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+height:100vh;
+background:#1f2f46;
 color:white;
-border:none;
+padding:25px;
 }
 
-.btn-belle:hover{
-background:#b89a66;
+.sidebar h3{
+font-weight:300;
+letter-spacing:1px;
+margin-bottom:40px;
 }
+
+.menu-btn{
+width:100%;
+margin-bottom:10px;
+border:none;
+background:transparent;
+color:white;
+padding:10px;
+border-radius:8px;
+text-align:left;
+}
+
+.menu-btn:hover{
+background:#32435c;
+}
+
+/* TOPBAR */
+
+.topbar{
+background:white;
+padding:15px 30px;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* CARDS */
 
 .card{
 border:none;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .section-title{
@@ -54,63 +97,94 @@ color:#1f2f46;
 font-weight:600;
 }
 
-.nav-tabs .nav-link{
-color:#1f2f46;
-}
+/* BUTTON */
 
-.nav-tabs .nav-link.active{
-background:#1f2f46;
+.btn-belle{
+background:#c2a878;
+border:none;
 color:white;
-border-radius:10px;
 }
 
-.table{
-border-radius:15px;
-overflow:hidden;
+.btn-belle:hover{
+background:#b89a66;
 }
+
+/* IMAGE */
 
 .room-img{
 width:100%;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
+border-radius:15px;
+margin-bottom:25px;
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* TABLE */
+
+table{
+background:white;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- HERO -->
-<div class="hero">
-<div>
-<h1>Panel Belle Sand</h1>
-<p>Gestión de contactos y caja</p>
-</div>
-</div>
+<!-- LOGIN -->
 
-<div class="container my-5">
+<div class="login-screen" id="loginScreen">
 
-<!-- Imagen habitación -->
-<div class="mb-5 text-center">
-<img class="room-img"
-src="https://www.hotelbellesand.com/images/home/ourbest/img-1.jpg">
+<div class="login-box">
+
+<div class="login-title">Belle Sand Panel</div>
+
+<input id="pass" type="password" class="form-control mb-3" placeholder="Contraseña">
+
+<button onclick="login()" class="btn btn-belle w-100">Entrar</button>
+
 </div>
 
-<ul class="nav nav-tabs mb-4">
-<li class="nav-item">
-<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contactos">Contactos</button>
-</li>
-<li class="nav-item">
-<button class="nav-link" data-bs-toggle="tab" data-bs-target="#caja">Caja</button>
-</li>
-</ul>
+</div>
 
-<div class="tab-content">
+<!-- PANEL -->
+
+<div class="panel" id="panel">
+
+<div class="container-fluid">
+
+<div class="row">
+
+<!-- SIDEBAR -->
+
+<div class="col-md-2 sidebar">
+
+<h3>Belle Sand</h3>
+
+<button class="menu-btn" onclick="mostrar('contactos')">Contactos</button>
+<button class="menu-btn" onclick="mostrar('caja')">Caja</button>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="col-md-10 p-0">
+
+<div class="topbar">
+
+Panel de administración
+
+</div>
+
+<div class="p-4">
+
+<img class="room-img" src="https://www.hotelbellesand.com/images/home/ourbest/img-1.jpg">
 
 <!-- CONTACTOS -->
-<div class="tab-pane fade show active" id="contactos">
+
+<div id="contactos">
 
 <div class="card p-4 mb-4">
+
 <h4 class="section-title mb-3">Registrar Contacto</h4>
 
 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec"
@@ -120,31 +194,41 @@ target="hidden_iframe">
 <input type="hidden" name="accion" value="contacto">
 
 <div class="row">
+
 <div class="col-md-6">
 <input class="form-control mb-3" name="nombre" placeholder="Nombre" required>
 </div>
+
 <div class="col-md-6">
 <input class="form-control mb-3" name="telefono" placeholder="Teléfono" required>
 </div>
+
 </div>
 
 <textarea class="form-control mb-3" name="mensaje" placeholder="Mensaje"></textarea>
 
 <button class="btn btn-belle w-100">Enviar</button>
+
 </form>
+
 </div>
 
 <div class="card p-4">
+
 <button onclick="verContactos()" class="btn btn-outline-dark mb-3">Ver Contactos</button>
+
 <div id="tablaContactos"></div>
+
 </div>
 
 </div>
 
 <!-- CAJA -->
-<div class="tab-pane fade" id="caja">
+
+<div id="caja" style="display:none">
 
 <div class="card p-4 mb-4">
+
 <h4 class="section-title mb-3">Registrar Movimiento</h4>
 
 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec"
@@ -154,18 +238,23 @@ target="hidden_iframe">
 <input type="hidden" name="accion" value="caja1">
 
 <div class="row">
+
 <div class="col-md-4">
 <input class="form-control mb-3" name="habitacion" placeholder="Habitación" required>
 </div>
+
 <div class="col-md-4">
 <input class="form-control mb-3" name="nombreCliente" placeholder="Cliente" required>
 </div>
+
 <div class="col-md-4">
 <input type="number" step="0.01" class="form-control mb-3" name="monto" placeholder="Monto" required>
 </div>
+
 </div>
 
 <div class="row">
+
 <div class="col-md-4">
 <select class="form-control mb-3" name="moneda">
 <option>Soles</option>
@@ -187,15 +276,29 @@ target="hidden_iframe">
 <option>Egreso</option>
 </select>
 </div>
+
 </div>
 
 <button class="btn btn-belle w-100">Registrar</button>
+
 </form>
+
 </div>
 
 <div class="card p-4">
+
 <button onclick="verCaja()" class="btn btn-outline-dark mb-3">Ver Caja</button>
+
 <div id="tablaCaja"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -210,8 +313,38 @@ target="hidden_iframe">
 
 const url="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec";
 
+/* LOGIN SIMPLE */
+
+function login(){
+
+let p=document.getElementById("pass").value;
+
+if(p==="bellesand123"){
+document.getElementById("loginScreen").style.display="none";
+document.getElementById("panel").style.display="block";
+}else{
+alert("Contraseña incorrecta");
+}
+
+}
+
+/* NAVEGACIÓN */
+
+function mostrar(seccion){
+
+document.getElementById("contactos").style.display="none";
+document.getElementById("caja").style.display="none";
+
+document.getElementById(seccion).style.display="block";
+
+}
+
+/* TABLAS */
+
 function crearTabla(data){
-let html="<div class='table-responsive'><table class='table table-bordered'>";
+
+let html="<div class='table-responsive'><table class='table table-striped table-bordered'>";
+
 data.forEach(fila=>{
 html+="<tr>";
 fila.forEach(col=>{
@@ -219,29 +352,42 @@ html+="<td>"+col+"</td>";
 });
 html+="</tr>";
 });
+
 html+="</table></div>";
+
 return html;
+
 }
 
+/* CONTACTOS */
+
 function verContactos(){
+
 fetch(url+"?accion=verContactos")
+
 .then(res=>res.json())
+
 .then(data=>{
 document.getElementById("tablaContactos").innerHTML=crearTabla(data);
 });
+
 }
 
+/* CAJA */
+
 function verCaja(){
+
 fetch(url+"?accion=verCaja1")
+
 .then(res=>res.json())
+
 .then(data=>{
 document.getElementById("tablaCaja").innerHTML=crearTabla(data);
 });
+
 }
 
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
