@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belle Sand | Sistema Elite</title>
+    <title>Belle Sand | Resort & Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
@@ -14,13 +14,26 @@
             --soft-white: #fcfaf7;
         }
 
-        body, html { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--soft-white); }
+        body, html { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--soft-white); scroll-behavior: smooth; }
 
-        /* VISTA PÚBLICA */
-        .admin-trigger { position: fixed; top: 20px; right: 20px; z-index: 2000; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 15px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
-        #hero { height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        /* --- SECCIÓN PÚBLICA (HABITACIONES) --- */
+        .admin-trigger { position: fixed; top: 20px; right: 20px; z-index: 2000; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 15px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .admin-trigger:hover { background: white; color: var(--primary-dark); }
 
-        /* PANEL ADMIN */
+        #hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        
+        .hero-title { font-size: 3.5rem; letter-spacing: 10px; font-weight: 300; text-transform: uppercase; }
+        .hero-subtitle { font-size: 1rem; letter-spacing: 5px; font-style: italic; opacity: 0.8; }
+
+        .rooms-section { padding: 80px 8%; }
+        .room-card { background: white; border: none; overflow: hidden; transition: 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; height: 100%; }
+        .room-card:hover { transform: translateY(-8px); }
+        .room-img { height: 250px; background-size: cover; background-position: center; }
+        .room-info { padding: 20px; text-align: center; }
+        .room-info h3 { font-size: 1.1rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-dark); }
+        .room-price { color: var(--accent-gold); font-weight: 600; font-size: 0.85rem; }
+
+        /* --- PANEL DE ADMINISTRACIÓN --- */
         #panel { display: none; min-height: 100vh; background: #f8f9fa; }
         .sidebar { min-height: 100vh; background: var(--primary-dark); color: white; padding: 25px; position: fixed; width: 16.6%; }
         .main-content { margin-left: 16.6%; padding: 30px; width: 83.4%; }
@@ -29,17 +42,11 @@
         .menu-btn:hover, .menu-btn.active { background: var(--accent-gold); opacity: 1; color: white; }
         
         .card-admin { background: white; border-radius: 12px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 25px; }
-        
         .filter-row input { font-size: 0.75rem; padding: 4px 8px; border: 1px solid #eee; border-radius: 4px; width: 100%; }
 
-        /* NOTIFICACIONES */
         .status-bubble { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 30px; border-radius: 50px; color: white; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 600; }
-
         #loginOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 37, 51, 0.98); z-index: 3000; justify-content: center; align-items: center; }
         
-        table th { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; color: #888; border-bottom: 2px solid #eee !important; }
-        
-        /* Validaciones visuales */
         .is-invalid { border-color: #dc3545 !important; }
         .is-valid { border-color: #198754 !important; }
     </style>
@@ -51,16 +58,62 @@
 
     <div id="publicSite">
         <section id="hero">
-            <h1 style="letter-spacing: 10px; font-weight: 300;">BELLE SAND</h1>
+            <h1 class="hero-title">Belle Sand</h1>
+            <p class="hero-subtitle">EL ARTE DE LA CALMA</p>
         </section>
-        <div class="p-5 text-center">
-            <h2 style="font-weight: 300; letter-spacing: 4px;">RESERVE SU EXPERIENCIA</h2>
-        </div>
+
+        <section class="rooms-section">
+            <div class="text-center mb-5">
+                <h2 style="font-weight: 300; letter-spacing: 4px; text-transform: uppercase;">Nuestras Suites</h2>
+                <div style="width: 50px; height: 1px; background: var(--accent-gold); margin: 20px auto;"></div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="room-card">
+                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496695/image-ica-belle-sand-hotel-42.JPEG');"></div>
+                            <div class="room-info"><h3>Suite Matrimonial</h3><p class="room-price">S/ 250 • NOCHE</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="room-card">
+                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496701/image-ica-belle-sand-hotel-48.JPEG');"></div>
+                            <div class="room-info"><h3>Habitación Familiar</h3><p class="room-price">S/ 380 • NOCHE</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="room-card">
+                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496698/image-ica-belle-sand-hotel-45.JPEG');"></div>
+                            <div class="room-info"><h3>Bungalow Deluxe</h3><p class="room-price">S/ 450 • NOCHE</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="room-card">
+                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496693/image-ica-belle-sand-hotel-40.JPEG');"></div>
+                            <div class="room-info"><h3>Suite Jardín</h3><p class="room-price">S/ 290 • NOCHE</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="room-card">
+                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496696/image-ica-belle-sand-hotel-43.JPEG');"></div>
+                            <div class="room-info"><h3>Doble Premium</h3><p class="room-price">S/ 320 • NOCHE</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="room-card">
+                            <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496702/image-ica-belle-sand-hotel-49.JPEG');"></div>
+                            <div class="room-info"><h3>Master Suite</h3><p class="room-price">S/ 580 • NOCHE</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <div id="loginOverlay">
         <div style="background: white; padding: 40px; border-radius: 12px; width: 340px; text-align: center;">
-            <h5 class="mb-4">IDENTIFICACIÓN</h5>
+            <h5 class="mb-4">SISTEMA INTERNO</h5>
             <input id="pass" type="password" class="form-control mb-3" placeholder="Contraseña">
             <button onclick="login()" class="btn btn-dark w-100 mb-2">ENTRAR</button>
             <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted">Cancelar</button>
@@ -82,9 +135,9 @@
                     
                     <div id="sec-contactos">
                         <div class="d-flex justify-content-between align-items-end mb-4">
-                            <div><h2 class="fw-light">Libro de Contactos</h2></div>
+                            <h2 class="fw-light">Contactos</h2>
                             <div>
-                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaContactosID', 'Contactos_BelleSand')">📥 Exportar</button>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaContactosID', 'Contactos')">📥 Excel</button>
                                 <button class="btn btn-dark btn-sm" onclick="verContactos()">🔄 Actualizar</button>
                             </div>
                         </div>
@@ -93,28 +146,21 @@
                             <form id="form-contactos" onsubmit="enviarFormulario(event, 'contacto')">
                                 <input type="hidden" name="accion" value="contacto">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <input class="form-control" name="nombre" placeholder="Nombre (min 3 letras)" required minlength="3">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input class="form-control" name="telefono" placeholder="Teléfono (9 dígitos)" required pattern="[0-9]{9}" title="Debe tener 9 dígitos numéricos">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input class="form-control" name="mensaje" placeholder="Mensaje/Nota">
-                                    </div>
+                                    <div class="col-md-4"><input class="form-control" name="nombre" placeholder="Nombre" required minlength="3"></div>
+                                    <div class="col-md-4"><input class="form-control" name="telefono" placeholder="Teléfono (9 dígitos)" required pattern="[0-9]{9}"></div>
+                                    <div class="col-md-4"><input class="form-control" name="mensaje" placeholder="Mensaje"></div>
                                 </div>
-                                <button type="submit" class="btn btn-dark mt-3 px-4">Registrar Contacto</button>
+                                <button type="submit" class="btn btn-dark mt-3">Guardar Registro</button>
                             </form>
                         </div>
-
                         <div class="card-admin p-0 overflow-hidden"><div id="tablaContactos" class="p-3">Cargando...</div></div>
                     </div>
 
                     <div id="sec-caja" style="display:none">
                         <div class="d-flex justify-content-between align-items-end mb-4">
-                            <div><h2 class="fw-light">Control de Caja</h2></div>
+                            <h2 class="fw-light">Caja Chica</h2>
                             <div>
-                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaCajaID', 'Caja_BelleSand')">📥 Exportar</button>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaCajaID', 'Caja')">📥 Excel</button>
                                 <button class="btn btn-dark btn-sm" onclick="verCaja()">🔄 Actualizar</button>
                             </div>
                         </div>
@@ -124,22 +170,19 @@
                                 <input type="hidden" name="accion" value="caja1">
                                 <div class="row g-2">
                                     <div class="col-md-2"><input class="form-control" name="habitacion" placeholder="Hab." required></div>
-                                    <div class="col-md-4"><input class="form-control" name="nombreCliente" placeholder="Nombre Cliente" required minlength="3"></div>
-                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control" name="monto" placeholder="S/ Monto" required min="0.01"></div>
+                                    <div class="col-md-4"><input class="form-control" name="nombreCliente" placeholder="Cliente" required minlength="3"></div>
+                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control" name="monto" placeholder="Monto" required min="0.01"></div>
                                     <div class="col-md-2">
                                         <select class="form-select" name="tipo">
-                                            <option value="Ingreso">Ingreso</option>
-                                            <option value="Egreso">Egreso</option>
+                                            <option value="Ingreso">Ingreso</option><option value="Egreso">Egreso</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2"><button type="submit" class="btn btn-dark w-100">Guardar</button></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-dark w-100">Registrar</button></div>
                                 </div>
                             </form>
                         </div>
-
                         <div class="card-admin p-0 overflow-hidden"><div id="tablaCaja" class="p-3">Cargando...</div></div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -152,40 +195,29 @@
             const b = document.getElementById('status-bubble');
             b.innerText = text; b.style.display = 'block';
             b.style.background = type === 'success' ? '#27ae60' : '#e74c3c';
-            setTimeout(() => b.style.display = 'none', 3500);
+            setTimeout(() => b.style.display = 'none', 3000);
         }
 
         // VALIDACIÓN DINÁMICA
-        document.querySelectorAll('input').forEach(input => {
+        document.querySelectorAll('input, select').forEach(input => {
             input.addEventListener('input', () => {
-                if (input.checkValidity()) {
-                    input.classList.remove('is-invalid');
-                    input.classList.add('is-valid');
-                } else {
-                    input.classList.remove('is-valid');
-                    input.classList.add('is-invalid');
-                }
+                if (input.checkValidity()) input.classList.replace('is-invalid', 'is-valid') || input.classList.add('is-valid');
+                else input.classList.replace('is-valid', 'is-invalid') || input.classList.add('is-invalid');
             });
         });
 
         async function enviarFormulario(event, accion) {
             event.preventDefault();
             const form = event.target;
-
-            if (!form.checkValidity()) {
-                showStatus("Por favor, corrige los campos marcados", "error");
-                return;
-            }
-
-            showStatus("Enviando a base de datos...", "success");
-
-            try {
-                await fetch(url, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
-                showStatus("¡Registro guardado correctamente!");
-                form.reset();
-                document.querySelectorAll('.is-valid').forEach(el => el.classList.remove('is-valid'));
-                accion === 'contacto' ? verContactos() : verCaja();
-            } catch (e) { showStatus("Error de conexión", "error"); }
+            if(!form.checkValidity()) return showStatus("Revisa los campos", "error");
+            
+            showStatus("Guardando...");
+            await fetch(url, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+            
+            showStatus("¡Éxito!");
+            form.reset();
+            document.querySelectorAll('.is-valid').forEach(e => e.classList.remove('is-valid'));
+            accion === 'contacto' ? verContactos() : verCaja();
         }
 
         function login() {
@@ -194,7 +226,7 @@
                 document.getElementById("loginOverlay").style.display = "none";
                 document.getElementById("panel").style.display = "block";
                 verContactos(); verCaja();
-            } else { alert("Acceso denegado"); }
+            } else { alert("Error"); }
         }
 
         function mostrar(sec) {
@@ -207,21 +239,21 @@
 
         function verContactos() {
             fetch(url + "?accion=verContactos").then(res=>res.json()).then(data => {
-                document.getElementById("tablaContactos").innerHTML = generarTablaConFiltros(data, "tablaContactosID");
+                document.getElementById("tablaContactos").innerHTML = generarTabla(data, "tablaContactosID");
             });
         }
 
         function verCaja() {
             fetch(url + "?accion=verCaja1").then(res=>res.json()).then(data => {
-                document.getElementById("tablaCaja").innerHTML = generarTablaConFiltros(data, "tablaCajaID");
+                document.getElementById("tablaCaja").innerHTML = generarTabla(data, "tablaCajaID");
             });
         }
 
-        function generarTablaConFiltros(data, tableId) {
+        function generarTabla(data, tableId) {
             let html = `<div class='table-responsive'><table class='table table-hover mb-0' id='${tableId}'><thead><tr>`;
             data[0].forEach(col => html += `<th>${col}</th>`);
             html += `</tr><tr class='filter-row'>`;
-            data[0].forEach((_, i) => html += `<td><input type='text' onkeyup='multiFiltro("${tableId}")'></td>`);
+            data[0].forEach((_, i) => html += `<td><input type='text' onkeyup='multiFiltro("${tableId}")' placeholder='Filtrar...'></td>`);
             html += `</tr></thead><tbody>`;
             for(let i=1; i<data.length; i++) {
                 html += "<tr>";
@@ -235,24 +267,21 @@
             const table = document.getElementById(tableId);
             const trs = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
             const inputs = table.querySelectorAll('.filter-row input');
-
             for (let i = 0; i < trs.length; i++) {
-                let showRow = true;
+                let show = true;
                 inputs.forEach((input, index) => {
-                    const cellValue = trs[i].getElementsByTagName("td")[index].textContent.toUpperCase();
-                    if (input.value && !cellValue.includes(input.value.toUpperCase())) showRow = false;
+                    const val = trs[i].getElementsByTagName("td")[index].textContent.toUpperCase();
+                    if (input.value && !val.includes(input.value.toUpperCase())) show = false;
                 });
-                trs[i].style.display = showRow ? "" : "none";
+                trs[i].style.display = show ? "" : "none";
             }
         }
 
         function exportarExcel(tableId, nombre) {
-            const table = document.getElementById(tableId);
-            const clone = table.cloneNode(true);
-            clone.querySelector('.filter-row').remove();
-            const wb = XLSX.utils.table_to_book(clone, {sheet: "Datos"});
+            const table = document.getElementById(tableId).cloneNode(true);
+            table.querySelector('.filter-row').remove();
+            const wb = XLSX.utils.table_to_book(table, {sheet: "Datos"});
             XLSX.writeFile(wb, `${nombre}.xlsx`);
-            showStatus("Excel descargado");
         }
 
         function openLogin() { document.getElementById("loginOverlay").style.display = "flex"; }
