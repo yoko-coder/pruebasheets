@@ -3,26 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belle Sand Hotel & Resort</title>
+    <title>Belle Sand | Exclusive Resort</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-dark: #1f2f46;
+            --primary-dark: #1a2533;
             --accent-gold: #c2a878;
-            --white: #ffffff;
+            --soft-white: #fcfaf7;
+            --text-gray: #555;
         }
 
         body, html {
-            height: 100%;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f6f3ec;
+            font-family: 'Segoe UI', serif;
+            background: var(--soft-white);
+            scroll-behavior: smooth;
         }
 
-        /* --- VISTA PÚBLICA (ESTILO LAS DUNAS) --- */
-        #publicHome {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+        /* --- BOTÓN DISCRETO STAFF --- */
+        .admin-trigger {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 15px;
+            border-radius: 2px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+        .admin-trigger:hover { background: white; color: var(--primary-dark); }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
                         url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG');
             background-size: cover;
             background-position: center;
@@ -32,148 +52,160 @@
             align-items: center;
             color: white;
             text-align: center;
-            position: relative;
         }
 
-        .navbar-brand-custom {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
+        .hero-title {
+            font-size: 3.5rem;
             font-weight: 300;
-            letter-spacing: 4px;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
 
-        .hero-text {
-            max-width: 800px;
+        .hero-subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* --- GRID DE HABITACIONES --- */
+        .rooms-section {
+            padding: 80px 10%;
+            background: var(--soft-white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-weight: 300;
+            letter-spacing: 5px;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+        }
+
+        .room-card {
+            background: white;
+            border: none;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             margin-bottom: 30px;
         }
 
-        .hero-text h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        .room-card:hover {
+            transform: translateY(-10px);
         }
 
-        /* Buscador de disponibilidad simulado */
-        .booking-bar {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 4px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            color: #333;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        .room-img {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s ease;
         }
 
-        .booking-item {
-            text-align: left;
-            border-right: 1px solid #ddd;
-            padding-right: 20px;
+        .room-card:hover .room-img {
+            transform: scale(1.05);
         }
 
-        .booking-item:last-child { border: none; }
+        .room-info {
+            padding: 25px;
+            text-align: center;
+        }
 
-        .booking-label { font-size: 0.7rem; text-transform: uppercase; color: #777; font-weight: bold; }
-        .booking-value { font-size: 1.2rem; font-weight: bold; color: var(--primary-dark); }
+        .room-info h3 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
 
-        .btn-reserve {
-            background: var(--primary-dark);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            text-transform: uppercase;
+        .room-price {
+            color: var(--accent-gold);
             font-weight: bold;
-            transition: 0.3s;
+            font-size: 0.9rem;
         }
-
-        .btn-reserve:hover { background: #2c3e50; color: white; }
-
-        /* Botón discreto para administración */
-        .admin-trigger {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            text-decoration: none;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .admin-trigger:hover { background: white; color: var(--primary-dark); }
 
         /* --- LOGIN OVERLAY --- */
         #loginOverlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(31, 47, 70, 0.95);
-            z-index: 1000;
+            background: rgba(26, 37, 51, 0.98);
+            z-index: 3000;
             justify-content: center;
             align-items: center;
         }
 
-        .login-box {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            width: 340px;
-            text-align: center;
-        }
-
-        /* --- PANEL DE ADMINISTRACIÓN (TUS ESTILOS ORIGINALES) --- */
-        #panel { display: none; }
+        /* --- PANEL DE ADMIN --- */
+        #panel { display: none; background: #f4f4f4; min-height: 100vh; }
         .sidebar { height: 100vh; background: var(--primary-dark); color: white; padding: 25px; }
-        .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 8px; margin-bottom: 8px; }
-        .menu-btn:hover { background: #32435c; }
-        .topbar { background: white; padding: 15px 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); font-weight: bold; }
-        .card { border: none; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-        .btn-belle { background: var(--accent-gold); border: none; color: white; }
-        .btn-belle:hover { background: #b89a66; }
+        .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 4px; margin-bottom: 8px; }
+        .menu-btn:hover { background: rgba(255,255,255,0.1); }
+        .btn-belle { background: var(--accent-gold); color: white; border: none; padding: 10px; }
 
-        /* WHATSAPP */
-        .whatsapp-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; z-index: 999; }
-        .whatsapp-btn img { width: 100%; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: .2s; }
-        .whatsapp-btn img:hover { transform: scale(1.1); }
+        .whatsapp-btn { position: fixed; bottom: 25px; right: 25px; width: 50px; z-index: 1000; transition: 0.3s; }
+        .whatsapp-btn:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
-    <div id="publicHome">
-        <div class="admin-trigger" onclick="openLogin()">Acceso Staff</div>
-        
-        <div class="navbar-brand-custom">Belle Sand</div>
+    <div class="admin-trigger" onclick="openLogin()">Staff Only</div>
 
-        <div class="hero-text">
-            <h1>Un oasis de naturaleza, belleza y diversión, con sol todo el año</h1>
-        </div>
+    <div id="publicSite">
+        <section id="hero">
+            <h1 class="hero-title">Belle Sand</h1>
+            <p class="hero-subtitle">EL ARTE DE LA CALMA</p>
+        </section>
 
-        <div class="booking-bar">
-            <div class="booking-item">
-                <div class="booking-label">Check In</div>
-                <div class="booking-value">08 MAR</div>
+        <section class="rooms-section">
+            <div class="section-header">
+                <h2>Nuestras Suites</h2>
+                <div style="width: 50px; height: 1px; background: var(--accent-gold); margin: 20px auto;"></div>
             </div>
-            <div class="booking-item">
-                <div class="booking-label">Check Out</div>
-                <div class="booking-value">09 MAR</div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="room-card">
+                        <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496695/image-ica-belle-sand-hotel-42.JPEG');"></div>
+                        <div class="room-info">
+                            <h3>Suite Matrimonial</h3>
+                            <p class="room-price">Desde S/ 250 por noche</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="room-card">
+                        <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496701/image-ica-belle-sand-hotel-48.JPEG');"></div>
+                        <div class="room-info">
+                            <h3>Habitación Familiar</h3>
+                            <p class="room-price">Desde S/ 380 por noche</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="room-card">
+                        <div class="room-img" style="background-image: url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496698/image-ica-belle-sand-hotel-45.JPEG');"></div>
+                        <div class="room-info">
+                            <h3>Bungalow Deluxe</h3>
+                            <p class="room-price">Desde S/ 450 por noche</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button class="btn-reserve">Reservar Ahora</button>
-        </div>
+        </section>
     </div>
 
     <div id="loginOverlay">
-        <div class="login-box">
-            <h4 class="mb-4">Panel Administrativo</h4>
-            <input id="pass" type="password" class="form-control mb-3" placeholder="Contraseña">
-            <button onclick="login()" class="btn btn-belle w-100 mb-2">Entrar</button>
-            <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted">Cancelar</button>
+        <div style="background: white; padding: 40px; border-radius: 4px; width: 320px; text-align: center;">
+            <h5 class="mb-4" style="letter-spacing: 2px;">IDENTIFICACIÓN</h5>
+            <input id="pass" type="password" class="form-control mb-3" placeholder="PIN de acceso">
+            <button onclick="login()" class="btn btn-dark w-100 mb-2">ENTRAR</button>
+            <button onclick="closeLogin()" class="btn btn-link btn-sm text-muted text-decoration-none">Cerrar</button>
         </div>
     </div>
 
@@ -181,72 +213,46 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 sidebar">
-                    <h3 class="mb-4">Belle Sand</h3>
+                    <h4 class="mb-5">Belle Sand</h4>
                     <button class="menu-btn" onclick="mostrar('contactos')">Contactos</button>
                     <button class="menu-btn" onclick="mostrar('caja')">Caja</button>
                     <hr>
-                    <button class="menu-btn" onclick="location.reload()">Cerrar Sesión</button>
+                    <button class="menu-btn" onclick="location.reload()">Salir</button>
                 </div>
-
                 <div class="col-md-10 p-0">
-                    <div class="topbar">Panel de administración</div>
+                    <div style="background: white; padding: 15px 30px; font-weight: bold; border-bottom: 1px solid #ddd;">Administración del Hotel</div>
                     <div class="p-4">
-                        
                         <div id="contactos">
                             <div class="card p-4 mb-4">
-                                <h4 class="section-title mb-3">Registrar Contacto</h4>
+                                <h4 class="mb-3">Registrar Contacto</h4>
                                 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec" method="POST" target="hidden_iframe">
                                     <input type="hidden" name="accion" value="contacto">
-                                    <div class="row">
-                                        <div class="col-md-6"><input class="form-control mb-3" name="nombre" placeholder="Nombre" required></div>
-                                        <div class="col-md-6"><input class="form-control mb-3" name="telefono" placeholder="Teléfono" required></div>
-                                    </div>
+                                    <input class="form-control mb-3" name="nombre" placeholder="Nombre" required>
+                                    <input class="form-control mb-3" name="telefono" placeholder="Teléfono" required>
                                     <textarea class="form-control mb-3" name="mensaje" placeholder="Mensaje"></textarea>
-                                    <button class="btn btn-belle w-100">Enviar</button>
+                                    <button class="btn btn-belle w-100">Guardar</button>
                                 </form>
                             </div>
-                            <div class="card p-4">
-                                <button onclick="verContactos()" class="btn btn-outline-dark mb-3">Ver Contactos</button>
-                                <div id="tablaContactos"></div>
-                            </div>
+                            <button onclick="verContactos()" class="btn btn-outline-dark mb-3">Refrescar Lista</button>
+                            <div id="tablaContactos"></div>
                         </div>
 
                         <div id="caja" style="display:none">
                             <div class="card p-4 mb-4">
-                                <h4 class="section-title mb-3">Registrar Movimiento</h4>
+                                <h4 class="mb-3">Movimiento de Caja</h4>
                                 <form action="https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec" method="POST" target="hidden_iframe">
                                     <input type="hidden" name="accion" value="caja1">
                                     <div class="row">
-                                        <div class="col-md-4"><input class="form-control mb-3" name="habitacion" placeholder="Habitación" required></div>
-                                        <div class="col-md-4"><input class="form-control mb-3" name="nombreCliente" placeholder="Cliente" required></div>
-                                        <div class="col-md-4"><input type="number" step="0.01" class="form-control mb-3" name="monto" placeholder="Monto" required></div>
+                                        <div class="col-md-4"><input class="form-control mb-3" name="habitacion" placeholder="Hab."></div>
+                                        <div class="col-md-4"><input class="form-control mb-3" name="nombreCliente" placeholder="Cliente"></div>
+                                        <div class="col-md-4"><input type="number" step="0.01" class="form-control mb-3" name="monto" placeholder="Monto"></div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <select class="form-control mb-3" name="moneda">
-                                                <option>Soles</option><option>Dólares</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <select class="form-control mb-3" name="medioPago">
-                                                <option>Yape</option><option>Tarjeta</option><option>Efectivo</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <select class="form-control mb-3" name="tipo">
-                                                <option>Ingreso</option><option>Egreso</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-belle w-100">Registrar</button>
+                                    <button class="btn btn-belle w-100">Registrar en Caja</button>
                                 </form>
                             </div>
-                            <div class="card p-4">
-                                <button onclick="verCaja()" class="btn btn-outline-dark mb-3">Ver Caja</button>
-                                <div id="tablaCaja"></div>
-                            </div>
+                            <button onclick="verCaja()" class="btn btn-outline-dark mb-3">Ver Historial</button>
+                            <div id="tablaCaja"></div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -256,25 +262,22 @@
     <iframe name="hidden_iframe" style="display:none;"></iframe>
 
     <a href="https://wa.me/51956003102" target="_blank" class="whatsapp-btn">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="100%">
     </a>
 
     <script>
         const url = "https://script.google.com/macros/s/AKfycbzf86CIa_B-kIDHppyeuqhm6ZW_QngreKFA_94l7EB724ix01NybCpuulLLhnuN1GWd/exec";
 
-        // FUNCIONES DE NAVEGACIÓN
         function openLogin() { document.getElementById("loginOverlay").style.display = "flex"; }
         function closeLogin() { document.getElementById("loginOverlay").style.display = "none"; }
 
         function login() {
-            let p = document.getElementById("pass").value;
-            if(p === "bellesand123") {
-                document.getElementById("publicHome").style.display = "none";
+            if(document.getElementById("pass").value === "bellesand123") {
+                document.getElementById("publicSite").style.display = "none";
                 document.getElementById("loginOverlay").style.display = "none";
+                document.querySelector(".admin-trigger").style.display = "none";
                 document.getElementById("panel").style.display = "block";
-            } else {
-                alert("Contraseña incorrecta");
-            }
+            } else { alert("Error de acceso"); }
         }
 
         function mostrar(sec) {
@@ -283,28 +286,26 @@
             document.getElementById(sec).style.display = "block";
         }
 
-        // TUS FUNCIONES DE DATOS (MANTENIDAS)
         function crearTabla(data) {
-            let html = "<div class='table-responsive'><table class='table table-striped table-bordered'>";
+            let html = "<div class='table-responsive'><table class='table table-sm table-striped'>";
             data.forEach(fila => {
                 html += "<tr>";
                 fila.forEach(col => { html += "<td>" + col + "</td>"; });
                 html += "</tr>";
             });
-            html += "</table></div>";
-            return html;
+            return html + "</table></div>";
         }
 
         function verContactos() {
-            fetch(url + "?accion=verContactos")
-                .then(res => res.json())
-                .then(data => { document.getElementById("tablaContactos").innerHTML = crearTabla(data); });
+            fetch(url + "?accion=verContactos").then(res=>res.json()).then(data=> {
+                document.getElementById("tablaContactos").innerHTML = crearTabla(data);
+            });
         }
 
         function verCaja() {
-            fetch(url + "?accion=verCaja1")
-                .then(res => res.json())
-                .then(data => { document.getElementById("tablaCaja").innerHTML = crearTabla(data); });
+            fetch(url + "?accion=verCaja1").then(res=>res.json()).then(data=> {
+                document.getElementById("tablaCaja").innerHTML = crearTabla(data);
+            });
         }
     </script>
 </body>
