@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belle Sand | Admin Elite</title>
+    <title>Belle Sand | Sistema Elite</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
@@ -16,47 +16,32 @@
 
         body, html { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--soft-white); }
 
-        /* --- VISTA PÚBLICA (Mantenida) --- */
+        /* VISTA PÚBLICA */
         .admin-trigger { position: fixed; top: 20px; right: 20px; z-index: 2000; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 15px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
         #hero { height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://belle-sand.hoteles-en-ica.com/data/Images/OriginalPhoto/1874/187496/187496703/image-ica-belle-sand-hotel-50.JPEG'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
 
-        /* --- PANEL DE ADMIN --- */
+        /* PANEL ADMIN */
         #panel { display: none; min-height: 100vh; background: #f8f9fa; }
-        .sidebar { min-height: 100vh; background: var(--primary-dark); color: white; padding: 25px; position: fixed; width: inherit; }
-        .main-content { margin-left: 16.666667%; padding: 30px; width: 83.333333%; }
+        .sidebar { min-height: 100vh; background: var(--primary-dark); color: white; padding: 25px; position: fixed; width: 16.6%; }
+        .main-content { margin-left: 16.6%; padding: 30px; width: 83.4%; }
         
         .menu-btn { width: 100%; background: transparent; border: none; color: white; padding: 12px; text-align: left; border-radius: 4px; margin-bottom: 8px; transition: 0.3s; opacity: 0.7; }
         .menu-btn:hover, .menu-btn.active { background: var(--accent-gold); opacity: 1; color: white; }
         
         .card-admin { background: white; border-radius: 12px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 25px; }
         
-        /* Filtros por Columna */
-        .filter-row input {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            width: 100%;
-        }
+        .filter-row input { font-size: 0.75rem; padding: 4px 8px; border: 1px solid #eee; border-radius: 4px; width: 100%; }
 
-        .status-bubble {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 30px;
-            border-radius: 50px;
-            color: white;
-            z-index: 9999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            font-weight: 600;
-        }
+        /* NOTIFICACIONES */
+        .status-bubble { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 30px; border-radius: 50px; color: white; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 600; }
 
         #loginOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 37, 51, 0.98); z-index: 3000; justify-content: center; align-items: center; }
         
         table th { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; color: #888; border-bottom: 2px solid #eee !important; }
-        table td { font-size: 0.9rem; vertical-align: middle; }
+        
+        /* Validaciones visuales */
+        .is-invalid { border-color: #dc3545 !important; }
+        .is-valid { border-color: #198754 !important; }
     </style>
 </head>
 <body>
@@ -70,7 +55,6 @@
         </section>
         <div class="p-5 text-center">
             <h2 style="font-weight: 300; letter-spacing: 4px;">RESERVE SU EXPERIENCIA</h2>
-            <p class="text-muted">Desliza para ver nuestras suites</p>
         </div>
     </div>
 
@@ -98,52 +82,50 @@
                     
                     <div id="sec-contactos">
                         <div class="d-flex justify-content-between align-items-end mb-4">
+                            <div><h2 class="fw-light">Libro de Contactos</h2></div>
                             <div>
-                                <h2 class="fw-light">Libro de Contactos</h2>
-                                <p class="text-muted small m-0">Gestión de prospectos y mensajes</p>
-                            </div>
-                            <div>
-                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaContactosID', 'Contactos_BelleSand')">📥 Exportar Excel</button>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaContactosID', 'Contactos_BelleSand')">📥 Exportar</button>
                                 <button class="btn btn-dark btn-sm" onclick="verContactos()">🔄 Actualizar</button>
                             </div>
                         </div>
 
                         <div class="card-admin">
-                            <form onsubmit="enviarFormulario(event, 'contacto')">
+                            <form id="form-contactos" onsubmit="enviarFormulario(event, 'contacto')">
                                 <input type="hidden" name="accion" value="contacto">
                                 <div class="row">
-                                    <div class="col-md-4"><input class="form-control" name="nombre" placeholder="Nombre" required></div>
-                                    <div class="col-md-4"><input class="form-control" name="telefono" placeholder="Teléfono" required></div>
-                                    <div class="col-md-4"><input class="form-control" name="mensaje" placeholder="Mensaje/Nota"></div>
+                                    <div class="col-md-4">
+                                        <input class="form-control" name="nombre" placeholder="Nombre (min 3 letras)" required minlength="3">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input class="form-control" name="telefono" placeholder="Teléfono (9 dígitos)" required pattern="[0-9]{9}" title="Debe tener 9 dígitos numéricos">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input class="form-control" name="mensaje" placeholder="Mensaje/Nota">
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-dark mt-3 px-4">Registrar</button>
+                                <button type="submit" class="btn btn-dark mt-3 px-4">Registrar Contacto</button>
                             </form>
                         </div>
 
-                        <div class="card-admin p-0 overflow-hidden">
-                            <div id="tablaContactos" class="p-3">Cargando base de datos...</div>
-                        </div>
+                        <div class="card-admin p-0 overflow-hidden"><div id="tablaContactos" class="p-3">Cargando...</div></div>
                     </div>
 
                     <div id="sec-caja" style="display:none">
                         <div class="d-flex justify-content-between align-items-end mb-4">
+                            <div><h2 class="fw-light">Control de Caja</h2></div>
                             <div>
-                                <h2 class="fw-light">Control de Caja</h2>
-                                <p class="text-muted small m-0">Flujo de efectivo e ingresos</p>
-                            </div>
-                            <div>
-                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaCajaID', 'Caja_BelleSand')">📥 Exportar Excel</button>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportarExcel('tablaCajaID', 'Caja_BelleSand')">📥 Exportar</button>
                                 <button class="btn btn-dark btn-sm" onclick="verCaja()">🔄 Actualizar</button>
                             </div>
                         </div>
 
                         <div class="card-admin">
-                            <form onsubmit="enviarFormulario(event, 'caja1')">
+                            <form id="form-caja" onsubmit="enviarFormulario(event, 'caja1')">
                                 <input type="hidden" name="accion" value="caja1">
                                 <div class="row g-2">
-                                    <div class="col-md-2"><input class="form-control" name="habitacion" placeholder="Hab."></div>
-                                    <div class="col-md-4"><input class="form-control" name="nombreCliente" placeholder="Nombre del Cliente" required></div>
-                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control" name="monto" placeholder="S/ Monto" required></div>
+                                    <div class="col-md-2"><input class="form-control" name="habitacion" placeholder="Hab." required></div>
+                                    <div class="col-md-4"><input class="form-control" name="nombreCliente" placeholder="Nombre Cliente" required minlength="3"></div>
+                                    <div class="col-md-2"><input type="number" step="0.01" class="form-control" name="monto" placeholder="S/ Monto" required min="0.01"></div>
                                     <div class="col-md-2">
                                         <select class="form-select" name="tipo">
                                             <option value="Ingreso">Ingreso</option>
@@ -155,9 +137,7 @@
                             </form>
                         </div>
 
-                        <div class="card-admin p-0 overflow-hidden">
-                            <div id="tablaCaja" class="p-3">Cargando base de datos...</div>
-                        </div>
+                        <div class="card-admin p-0 overflow-hidden"><div id="tablaCaja" class="p-3">Cargando...</div></div>
                     </div>
 
                 </div>
@@ -170,10 +150,42 @@
 
         function showStatus(text, type='success') {
             const b = document.getElementById('status-bubble');
-            b.innerText = text;
-            b.style.display = 'block';
+            b.innerText = text; b.style.display = 'block';
             b.style.background = type === 'success' ? '#27ae60' : '#e74c3c';
-            setTimeout(() => b.style.display = 'none', 3000);
+            setTimeout(() => b.style.display = 'none', 3500);
+        }
+
+        // VALIDACIÓN DINÁMICA
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.checkValidity()) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                }
+            });
+        });
+
+        async function enviarFormulario(event, accion) {
+            event.preventDefault();
+            const form = event.target;
+
+            if (!form.checkValidity()) {
+                showStatus("Por favor, corrige los campos marcados", "error");
+                return;
+            }
+
+            showStatus("Enviando a base de datos...", "success");
+
+            try {
+                await fetch(url, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+                showStatus("¡Registro guardado correctamente!");
+                form.reset();
+                document.querySelectorAll('.is-valid').forEach(el => el.classList.remove('is-valid'));
+                accion === 'contacto' ? verContactos() : verCaja();
+            } catch (e) { showStatus("Error de conexión", "error"); }
         }
 
         function login() {
@@ -182,7 +194,7 @@
                 document.getElementById("loginOverlay").style.display = "none";
                 document.getElementById("panel").style.display = "block";
                 verContactos(); verCaja();
-            } else { alert("Contraseña incorrecta"); }
+            } else { alert("Acceso denegado"); }
         }
 
         function mostrar(sec) {
@@ -191,19 +203,6 @@
             document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove('active'));
             document.getElementById("sec-" + sec).style.display = "block";
             document.getElementById("nav-" + sec).classList.add('active');
-        }
-
-        async function enviarFormulario(event, accion) {
-            event.preventDefault();
-            const form = event.target;
-            showStatus("Enviando datos...", "success");
-
-            try {
-                await fetch(url, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
-                showStatus("¡Registro guardado con éxito!");
-                form.reset();
-                accion === 'contacto' ? verContactos() : verCaja();
-            } catch (e) { showStatus("Error de conexión", "error"); }
         }
 
         function verContactos() {
@@ -220,18 +219,10 @@
 
         function generarTablaConFiltros(data, tableId) {
             let html = `<div class='table-responsive'><table class='table table-hover mb-0' id='${tableId}'><thead><tr>`;
-            
-            // Cabeceras
             data[0].forEach(col => html += `<th>${col}</th>`);
             html += `</tr><tr class='filter-row'>`;
-            
-            // Fila de Filtros
-            data[0].forEach((_, i) => {
-                html += `<td><input type='text' placeholder='Filtrar...' onkeyup='multiFiltro("${tableId}", ${i}, this.value)'></td>`;
-            });
+            data[0].forEach((_, i) => html += `<td><input type='text' onkeyup='multiFiltro("${tableId}")'></td>`);
             html += `</tr></thead><tbody>`;
-
-            // Cuerpo
             for(let i=1; i<data.length; i++) {
                 html += "<tr>";
                 data[i].forEach(col => html += `<td>${col}</td>`);
@@ -240,38 +231,28 @@
             return html + "</tbody></table></div>";
         }
 
-        function multiFiltro(tableId, colIndex, value) {
+        function multiFiltro(tableId) {
             const table = document.getElementById(tableId);
             const trs = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-            const filterValue = value.toUpperCase();
-
-            // Obtenemos todos los inputs de filtro de esa tabla
-            const allFilters = table.querySelectorAll('.filter-row input');
+            const inputs = table.querySelectorAll('.filter-row input');
 
             for (let i = 0; i < trs.length; i++) {
                 let showRow = true;
-                
-                // Verificamos cada columna contra su respectivo filtro
-                allFilters.forEach((input, index) => {
+                inputs.forEach((input, index) => {
                     const cellValue = trs[i].getElementsByTagName("td")[index].textContent.toUpperCase();
-                    if (input.value && cellValue.indexOf(input.value.toUpperCase()) === -1) {
-                        showRow = false;
-                    }
+                    if (input.value && !cellValue.includes(input.value.toUpperCase())) showRow = false;
                 });
-                
                 trs[i].style.display = showRow ? "" : "none";
             }
         }
 
         function exportarExcel(tableId, nombre) {
             const table = document.getElementById(tableId);
-            // Clonamos la tabla para quitar la fila de filtros antes de exportar
             const clone = table.cloneNode(true);
             clone.querySelector('.filter-row').remove();
-            
             const wb = XLSX.utils.table_to_book(clone, {sheet: "Datos"});
             XLSX.writeFile(wb, `${nombre}.xlsx`);
-            showStatus("Archivo Excel generado");
+            showStatus("Excel descargado");
         }
 
         function openLogin() { document.getElementById("loginOverlay").style.display = "flex"; }
